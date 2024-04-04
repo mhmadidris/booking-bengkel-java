@@ -55,6 +55,7 @@ public class MenuService {
 			switch (menuChoice) {
 				case 1:
 					// panggil fitur Informasi Customer
+					BengkelService.getCustomerInformation(customerID, listAllCustomers);
 					break;
 				case 2:
 					// panggil fitur Booking Bengkel
