@@ -55,20 +55,27 @@ public class MenuService {
 			switch (menuChoice) {
 				case 1:
 					// panggil fitur Informasi Customer
-					BengkelService.getCustomerInformation(customerID, listAllCustomers);
+					BengkelService.getCustomerInformationService(customerID, listAllCustomers);
 					break;
 				case 2:
 					// panggil fitur Booking Bengkel
 					break;
 				case 3:
 					// panggil fitur Top Up Saldo Coin
+					BengkelService.topupSaldoService(customerID, listAllCustomers, input);
 					break;
 				case 4:
 					// panggil fitur Informasi Booking Order
 					break;
 				default:
 					// panggil fitur Logout
-					BengkelService.logoutService(isLooping, customerID);
+					if (customerID != null) {
+						System.out.println("Logout berhasil");
+						isLooping = false;
+						customerID = null;
+					} else {
+						System.out.println("Logout gagal");
+					}
 					break;
 			}
 		} while (isLooping);

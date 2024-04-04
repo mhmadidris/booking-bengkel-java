@@ -3,6 +3,7 @@ package com.bengkel.booking.services;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 import com.bengkel.booking.models.Customer;
 import com.bengkel.booking.models.ItemService;
@@ -11,8 +12,11 @@ import com.bengkel.booking.models.Vehicle;
 import com.bengkel.booking.repositories.ItemServiceRepository;
 
 public class BengkelService {
-	private static int loginCount = 0;
 	static DecimalFormat currencyFormatter = new DecimalFormat("Rp#,##0");
+
+	private static double saldoKoin = 0;
+	private static boolean isMember = false;
+	private static int loginCount = 0;
 
 	// Silahkan tambahkan fitur-fitur utama aplikasi disini
 
@@ -44,10 +48,7 @@ public class BengkelService {
 	}
 
 	// Info Customer
-	public static Boolean getCustomerInformation(String customerID, List<Customer> listAllCustomers) {
-		double saldoKoin = 0;
-		boolean isMember = false;
-
+	public static Boolean getCustomerInformationService(String customerID, List<Customer> listAllCustomers) {
 		Optional<Customer> customer = listAllCustomers.stream()
 				.filter(c -> c.getCustomerId().equals(customerID))
 				.findFirst();
@@ -78,17 +79,29 @@ public class BengkelService {
 	// Booking atau Reservation
 
 	// Top Up Saldo Coin Untuk Member Customer
+	public static void topupSaldoService(String customerID, List<Customer> listAllCustomers, Scanner input) {
+		Optional<Customer> customer = listAllCustomers.stream()
+				.filter(c -> c.getCustomerId().equals(customerID))
+				.findFirst();
+		if (customer.isPresent()) {
+			if (customer.get() instanceof MemberCustomer) {
+				System.out.print("Jumlah topup saldo: ");
+				int jumlahTopup = input.nextInt();
 
-	// Logout
-	public static boolean logoutService(boolean isLooping, String customerID) {
-		if (customerID != null) {
-			System.out.println("Logout berhasil");
-			isLooping = false;
-			customerID = null;
-			return true;
-		} else {
-			System.out.println("Logout gagal");
-			return false;
+				MemberCustomer memberCustomer = (MemberCustomer) customer.get();
+
+				if (memberCustomer.getCustomerId() == customerID) {
+					double updatedSaldo = memberCustomer.topupSaldo(jumlahTopup);
+
+					memberCustomer.setSaldoCoin(updatedSaldo);
+					System.out.println("Saldo berhasil topup.");
+					System.out.println("Jumlah saldo saat ini: " + currencyFormatter.format(updatedSaldo));
+				} else {
+					System.out.println("Saldo gagal topup.");
+				}
+			} else {
+				System.out.println("Maaf fitur ini hanya untuk Member saja!");
+			}
 		}
 	}
 }
