@@ -67,9 +67,8 @@ public class MenuService {
 					// panggil fitur Informasi Booking Order
 					break;
 				default:
-					System.out.println("Logout");
-					isLooping = false;
-					customerID = null;
+					// panggil fitur Logout
+					BengkelService.logoutService(isLooping, customerID);
 					break;
 			}
 		} while (isLooping);

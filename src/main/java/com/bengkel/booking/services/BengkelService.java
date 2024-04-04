@@ -80,5 +80,15 @@ public class BengkelService {
 	// Top Up Saldo Coin Untuk Member Customer
 
 	// Logout
-
+	public static boolean logoutService(boolean isLooping, String customerID) {
+		if (customerID != null) {
+			System.out.println("Logout berhasil");
+			isLooping = false;
+			customerID = null;
+			return true;
+		} else {
+			System.out.println("Logout gagal");
+			return false;
+		}
+	}
 }
