@@ -16,6 +16,8 @@ public class MenuService {
 	private static List<ItemService> listAllItemService = ItemServiceRepository.getAllItemService();
 	private static Scanner input = new Scanner(System.in);
 
+	private static String customerID = null;
+
 	public static void run() {
 		boolean isLooping = true;
 		do {
@@ -31,8 +33,9 @@ public class MenuService {
 		System.out.print("Masukkan Password: ");
 		String inputCustomerPassword = input.nextLine();
 
-		Boolean bengkelService = BengkelService.loginService(inputCustomerID, inputCustomerPassword, listAllCustomers);
-		if (bengkelService) {
+		String bengkelService = BengkelService.loginService(inputCustomerID, inputCustomerPassword, listAllCustomers);
+		if (bengkelService != null) {
+			customerID = bengkelService;
 			mainMenu();
 		}
 	}
@@ -65,6 +68,7 @@ public class MenuService {
 				default:
 					System.out.println("Logout");
 					isLooping = false;
+					customerID = null;
 					break;
 			}
 		} while (isLooping);

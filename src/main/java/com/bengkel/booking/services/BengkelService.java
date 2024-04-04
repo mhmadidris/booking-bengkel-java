@@ -12,7 +12,7 @@ public class BengkelService {
 	// Silahkan tambahkan fitur-fitur utama aplikasi disini
 
 	// Login
-	public static boolean loginService(String customerID, String customerPassword, List<Customer> listAllCustomers) {
+	public static String loginService(String customerID, String customerPassword, List<Customer> listAllCustomers) {
 		if (loginCount >= 3) {
 			System.out.println("Alert: Maaf, Anda terlalu banyak percobaan");
 			System.exit(0);
@@ -25,16 +25,16 @@ public class BengkelService {
 			Customer customer = checkCustomer.get();
 			if (customer.getPassword().equals(customerPassword)) {
 				System.out.println("Login Berhasil");
-				return true;
+				return customer.getCustomerId();
 			} else {
 				System.out.println("Alert: Maaf Password Yang Anda Masukkan Salah!");
 				loginCount++;
-				return false;
+				return null;
 			}
 		} else {
 			System.out.println("Alert: Maaf, Customer Tidak Ditemukan atau Salah!");
 			loginCount++;
-			return false;
+			return null;
 		}
 	}
 
