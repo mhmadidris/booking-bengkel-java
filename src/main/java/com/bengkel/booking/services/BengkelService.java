@@ -17,6 +17,7 @@ import com.bengkel.booking.repositories.ItemServiceRepository;
 public class BengkelService {
 	static DecimalFormat currencyFormatter = new DecimalFormat("Rp#,##0");
 	static List<ItemService> selectedServices = new ArrayList<>();
+	static MemberCustomer memberCustomer;
 
 	private static double saldoKoin = 0;
 	private static boolean isMember = false;
@@ -58,7 +59,7 @@ public class BengkelService {
 				.findFirst();
 		if (customer.isPresent()) {
 			if (customer.get() instanceof MemberCustomer) {
-				MemberCustomer memberCustomer = (MemberCustomer) customer.get();
+				memberCustomer = (MemberCustomer) customer.get();
 
 				isMember = true;
 				saldoKoin = memberCustomer.getSaldoCoin();
@@ -166,6 +167,16 @@ public class BengkelService {
 							.services(selectedServices)
 							.build();
 					bookingOrders.add(booking);
+				}
+
+				// Update Saldo
+				if (customer.get() instanceof MemberCustomer) {
+					memberCustomer = (MemberCustomer) customer.get();
+
+					MemberCustomer.builder()
+							.saldoCoin(988)
+							.build();
+
 				}
 			} else {
 				System.out.println("Kendaraan tidak ditemukan");
