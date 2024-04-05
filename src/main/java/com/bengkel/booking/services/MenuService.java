@@ -3,9 +3,11 @@ package com.bengkel.booking.services;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+import com.bengkel.booking.models.BookingOrder;
 import com.bengkel.booking.models.Customer;
 import com.bengkel.booking.models.ItemService;
 import com.bengkel.booking.repositories.CustomerRepository;
@@ -14,6 +16,8 @@ import com.bengkel.booking.repositories.ItemServiceRepository;
 public class MenuService {
 	private static List<Customer> listAllCustomers = CustomerRepository.getAllCustomer();
 	private static List<ItemService> listAllItemService = ItemServiceRepository.getAllItemService();
+	static List<BookingOrder> bookingOrders = new ArrayList<>();
+
 	private static Scanner input = new Scanner(System.in);
 
 	private static String customerID = null;
@@ -59,6 +63,8 @@ public class MenuService {
 					break;
 				case 2:
 					// panggil fitur Booking Bengkel
+					BengkelService.bookingService(customerID, listAllCustomers, listAllItemService, input,
+							bookingOrders);
 					break;
 				case 3:
 					// panggil fitur Top Up Saldo Coin
@@ -66,6 +72,7 @@ public class MenuService {
 					break;
 				case 4:
 					// panggil fitur Informasi Booking Order
+					PrintService.getAllBookingInformations(bookingOrders);
 					break;
 				default:
 					// panggil fitur Logout
